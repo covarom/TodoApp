@@ -6,11 +6,29 @@ import { v4}  from 'uuid';
 
 
 function App() {
+
   //Set for TodoList
   const [todoList,setTodoList]=useState([]);
 
   //Set for TextInput 
   const [textInput,settextInput]=useState("");
+
+    
+//get data from local storage
+useEffect(() => {
+  const storageTodoList=JSON.parse(localStorage.getItem(TODO_APP_STORAGE_KEY));
+  console.log(todoList);
+  return setTodoList(storageTodoList);
+  
+},[])
+
+
+  // save todoList to local storage
+  useEffect(() => {
+    localStorage.setItem(TODO_APP_STORAGE_KEY,JSON.stringify(todoList));
+  },[todoList]);
+  
+  
 
   const onTextInputChange= useCallback((e) =>{
     settextInput(e.target.value);
@@ -29,18 +47,6 @@ function App() {
 
   const TODO_APP_STORAGE_KEY="TODO_APP";
 
- //get data from local storage
- useEffect(() => {
-  const storageTodoList=localStorage.getItem(TODO_APP_STORAGE_KEY);
-  if(storageTodoList){
-    setTodoList(JSON.parse(storageTodoList));
-  }
-},[])
-
-  // save todoList to local storage
-  useEffect(() => {
-    localStorage.setItem(TODO_APP_STORAGE_KEY,JSON.stringify(todoList));
-  },[todoList]);
 
 
 
